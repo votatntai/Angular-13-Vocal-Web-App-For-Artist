@@ -3,7 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { Validators } from '@angular/forms'
 import { FormBuilder } from '@angular/forms'
 import { Router } from '@angular/router';
-import { User } from '../models/user.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -19,17 +19,27 @@ export class LoginComponent implements OnInit {
 
   signInForm = this.form.group({
     username: ['phucle', Validators.required],
-    password: ['tantai4899', Validators.required]
+    password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   signIn() {
     if (this.signInForm.valid) {
       this.service.signIn(this.signInForm.value.username, this.signInForm.value.password).subscribe(result => {
-        var data = JSON.parse(JSON.stringify(result));
-        localStorage.setItem('USER', JSON.stringify(data["data"]));
-        var user: User = data["data"]
-        this.service.updateUser(user);
-        this.router.navigate(['/main/profile'])
+        if (result.status == 200) {
+          var data = JSON.parse(JSON.stringify(result.body));
+          var user = data['data'];
+          localStorage.setItem('USER', JSON.stringify(user));
+          this.service.updateUser(user);
+          this.router.navigate(['/main/profile']);
+        }
+      }, error => {
+        if (error.status == 400) {
+          Swal.fire(
+            'Xin lỗi!',
+            'Tên đăng nhập hoặc mật khẩu không đúng!',
+            'info'
+          )
+        }
       });
     }
   }

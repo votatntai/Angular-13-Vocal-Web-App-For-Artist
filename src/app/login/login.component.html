@@ -26,24 +26,25 @@
 
                                     <div class="col-12">
                                         <label class="form-label">Username</label>
-                                        <input type="text" class="form-control" formControlName="username">
-                                        <div class="invalid-feedback">Please enter your username.</div>
+                                        <input type="text" class="form-control" [ngClass]="(signInForm.get('username')!.touched || signInForm.get('username')!.dirty)
+                                                 && signInForm.get('username')!.errors ? 'is-invalid' : '' || 
+                                                 (signInForm.get('username')!.touched || signInForm.get('username')!.dirty) &&
+                                                 !signInForm.get('username')!.invalid ? 'is-valid' : ''"
+                                            formControlName="username">
                                     </div>
 
                                     <div class="col-12">
                                         <label class="form-label">Password</label>
-                                        <input type="password" class="form-control" formControlName="password">
-                                        <div class="invalid-feedback">Please enter your password!</div>
+                                        <input type="password" class="form-control" [ngClass]="(signInForm.get('password')!.touched || signInForm.get('password')!.dirty)
+                                                 && signInForm.get('password')!.errors ? 'is-invalid' : '' || 
+                                                 (signInForm.get('password')!.touched || signInForm.get('password')!.dirty) &&
+                                                 !signInForm.get('password')!.invalid ? 'is-valid' : ''"
+                                            formControlName="password">
                                     </div>
 
-                                    <div class="col-12">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label">Remember me</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-outline-primary w-100" type="submit">Login</button>
+                                    <div class="col-12 mt-4">
+                                        <button class="btn btn-outline-primary w-100" type="submit"
+                                            [ngClass]="!signInForm.valid ? 'disabled' : ''">Login</button>
                                     </div>
                                     <div class="col-12">
                                         <p class="small mb-0">Don't have account? <a routerLink="register">Create

@@ -12,6 +12,12 @@ import { HomeComponent } from './main/home/home.component';
 import { ProfileComponent } from './main/profile/profile.component';
 import { NavigationComponent } from './main/navigation/navigation.component';
 import { FooterComponent } from './main/footer/footer.component';
+import { ErrorComponent } from './error/error.component';
+import { RecordComponent } from './main/record/record.component';
+import { NgAudioRecorderModule } from 'ng-audio-recorder';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -22,14 +28,19 @@ import { FooterComponent } from './main/footer/footer.component';
     HomeComponent,
     ProfileComponent,
     NavigationComponent,
-    FooterComponent
+    FooterComponent,
+    ErrorComponent,
+    RecordComponent,
   ],
   imports: [
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgAudioRecorderModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

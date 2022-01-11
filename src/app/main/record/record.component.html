@@ -1,0 +1,33 @@
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Record</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Main</li>
+                <li class="breadcrumb-item">Users</li>
+                <li class="breadcrumb-item active">Record</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+
+        <div class="row">
+
+            <button (click)="recordOnClick()" class="col-lg-3 btn mx-auto"
+                [ngClass]=" isRecording ? 'btn-danger' : 'btn-outline-primary'" type=" button">
+                <span *ngIf="isRecording" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                {{ isRecording ? 'Recording' : 'Start Recording' }}
+            </button>
+
+        </div>
+        <div class="row">
+
+            <div class="col-lg-6 btn mx-auto" id="song"></div>
+
+        </div>
+
+    </section>
+
+</main>

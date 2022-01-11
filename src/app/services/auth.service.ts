@@ -32,7 +32,7 @@ export class AuthService {
       username: username,
       password: password
     }
-    return this.http.post(this.baseUrl + '/api/v1/authenticate/artist', artist);
+    return this.http.post(this.baseUrl + '/api/v1/authenticate/artist', artist, { observe: 'response' });
   }
 
   changePassword(email: string, password: string) {

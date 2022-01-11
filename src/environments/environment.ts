@@ -4,7 +4,16 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://api.voiceplatform.social'
+  baseUrl: 'https://api.voiceplatform.social',
+  firebaseConfig: {
+    apiKey: "AIzaSyBTj_PvZT_7x8lxxv28zenSZ4Y_KaugIkY",
+    authDomain: "voiceplatform-73d6e.firebaseapp.com",
+    projectId: "voiceplatform-73d6e",
+    storageBucket: "voiceplatform-73d6e.appspot.com",
+    messagingSenderId: "1098825795310",
+    appId: "1:1098825795310:web:9ee281d257a554abf655ff",
+    measurementId: "G-JFVRTSS1Y0"
+  }
 };
 
 /*
