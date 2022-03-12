@@ -18,22 +18,20 @@ export class LoginComponent implements OnInit {
   }
 
   signInForm = this.form.group({
-    username: ['phucle', Validators.required],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    username: ['bachnguyen', Validators.required],
+    password: ['12345678', [Validators.required, Validators.minLength(6)]]
   });
 
   signIn() {
     if (this.signInForm.valid) {
-      this.service.signIn(this.signInForm.value.username, this.signInForm.value.password).subscribe(result => {
+      this.service.signIn(this.signInForm.value).subscribe(result => {
         if (result.status == 200) {
-          var data = JSON.parse(JSON.stringify(result.body));
-          var user = data['data'];
+          var user = JSON.parse(JSON.stringify(result.body));
           localStorage.setItem('USER', JSON.stringify(user));
-          this.service.updateUser(user);
           this.router.navigate(['/main/profile']);
         }
       }, error => {
-        if (error.status == 400) {
+        if (error.status == 401) {
           Swal.fire(
             'Xin lỗi!',
             'Tên đăng nhập hoặc mật khẩu không đúng!',

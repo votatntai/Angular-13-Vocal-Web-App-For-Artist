@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 import CustomScript from '../../assets/js/main';
-import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-main',
@@ -11,7 +8,7 @@ import { User } from '../models/user.model';
 })
 export class MainComponent implements OnInit {
 
-  constructor(private router: Router, private service: AuthService) { }
+  constructor() { }
 
   ngOnInit(): void {
     CustomScript();

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://api.voiceplatform.social',
+  baseUrl: 'https://dev.api.vocal.vn',
   firebaseConfig: {
     apiKey: "AIzaSyBTj_PvZT_7x8lxxv28zenSZ4Y_KaugIkY",
     authDomain: "voiceplatform-73d6e.firebaseapp.com",
@@ -10,5 +10,6 @@ export const environment = {
     messagingSenderId: "1098825795310",
     appId: "1:1098825795310:web:9ee281d257a554abf655ff",
     measurementId: "G-JFVRTSS1Y0"
-  }
+  },
+  defaultAvatar: "",
 };

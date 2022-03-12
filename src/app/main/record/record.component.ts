@@ -40,7 +40,6 @@ export class RecordComponent implements OnInit {
         fileRef.getDownloadURL().subscribe(url => {
           if (url) {
             this.audioUrl = url;
-            this.renderAudio();
             this.isRecording = false;
             console.warn(this.audioUrl);
           }
@@ -51,11 +50,6 @@ export class RecordComponent implements OnInit {
     }).catch(errrorCase => {
       console.error(errrorCase);
     });
-  }
-
-  renderAudio() {
-    var element = `<audio id="audio-player" controls="controls" src="${this.audioUrl}" type="audio/webm">`;
-    document.getElementById('song')!.innerHTML = element;
   }
 
 }

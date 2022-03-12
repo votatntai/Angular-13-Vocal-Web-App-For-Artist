@@ -1,0 +1,108 @@
+<main id="main" class="main">
+
+    <div *ngIf="!loading" class="loading-spinner d-flex justify-content-center my-auto">
+        <div class="spinner-border my-auto text-primary" role="status">
+            <span class="sr-only"></span>
+        </div>
+    </div>
+
+    <div *ngIf="loading" class="content">
+
+        <div class="pagetitle">
+            <h1>Jobs</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Main</li>
+                    <li class="breadcrumb-item">Users</li>
+                    <li class="breadcrumb-item">Jobs</li>
+                    <li class="breadcrumb-item active">Detail</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <div class="section profile">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">Khách hàng</div>
+                        <div class="card-body">
+                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                                <img src="{{ projectDetail.poster.avatar }}" alt="Profile"
+                                    class="center-cropped rounded-circle">
+                                <h2>{{ projectDetail.poster.firstName }} {{ projectDetail.poster.lastName }} </h2>
+                                <h3>{{ projectDetail.poster.email }}</h3>
+                                <div class="social-links mt-2">
+                                    <a class="twitter"><i class="bi bi-twitter"></i></a>
+                                    <a class="facebook"><i class="bi bi-facebook"></i></a>
+                                    <a class="instagram"><i class="bi bi-instagram"></i></a>
+                                    <a class="linkedin"><i class="bi bi-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ projectDetail.name }}</h5>
+                            <p class="text-black">{{ projectDetail.description }}</p>
+                            <p class="text-black">Yêu cầu giọng</p>
+                            <p *ngFor="let gender of projectDetail.projectGenders"
+                                class="btn btn-sm btn-outline-primary mx-2" style="border-radius: 25px">{{ gender
+                                }}</p>
+                            <p *ngFor="let country of projectDetail.projectCountries"
+                                class="btn btn-sm btn-outline-danger mx-2" style="border-radius: 25px">{{ country
+                                }}</p>
+                            <p class="text-black">Chất giọng</p>
+                            <p *ngFor="let voiceStyle of projectDetail.projectVoiceStyles"
+                                class="btn btn-sm btn-outline-primary mx-2" style="border-radius: 25px">{{
+                                voiceStyle }}
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            Footer
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Card with header and footer</h5>
+                            File here
+                        </div>
+                        <div class="card-footer">
+                            Footer
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Card with header and footer</h5>
+                            File here
+                        </div>
+                        <div class="card-footer">
+                            Footer
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Card with header and footer</h5>
+                            File here
+                        </div>
+                        <div class="card-footer">
+                            Footer
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>

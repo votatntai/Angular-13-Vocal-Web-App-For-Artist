@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from 'src/environments/environment';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -9,37 +9,70 @@ import { User } from '../models/user.model';
 })
 export class AuthService {
 
-  baseUrl = environment.baseUrl;
+  private baseUrl = environment.baseUrl;
+  private user: User = {
+    id: '', username: '', email: '', phone: '', avatar: '', firstName: '',
+    lastName: '', gender: '', role: '', status: '', token: ''
+  };
 
-  private user = new Subject<User>();
+  private httpHeaders: HttpHeaders;
 
-  constructor(private http: HttpClient) { }
+  private userGlobal = new BehaviorSubject(this.user);
 
-  public getUser(): Observable<User> {
-    return this.user.asObservable();
+  constructor(private http: HttpClient) {
+    this.httpHeaders = this.getHttpHeaders();
   }
 
-  public updateUser(user: User): void {
-    this.user.next(user);
-  }
-
-  get currentUser() {
-    return localStorage.getItem('USER');
-  }
-
-  signIn(username: string, password: string) {
-    var artist = {
-      username: username,
-      password: password
+  private getHttpHeaders(): HttpHeaders {
+    var data = localStorage.getItem('USER');
+    var headers = new HttpHeaders();
+    if (data) {
+      var user: User = JSON.parse(data);
+      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Authorization', 'Bearer ' + user.token);
     }
-    return this.http.post(this.baseUrl + '/api/v1/authenticate/artist', artist, { observe: 'response' });
+    return headers;
   }
 
-  changePassword(email: string, password: string) {
-    var change = {
+  public isAuth(): boolean {
+    return localStorage.getItem('USER') ? true : false;
+  }
+
+  public getUserGlobal(): Observable<User> {
+    return this.userGlobal.asObservable();
+  }
+
+  public setUserGlobal(user: User) {
+    this.userGlobal.next(user);
+    localStorage.setItem('USER', JSON.stringify(user));
+  }
+
+  signIn(auth: any) {
+    return this.http.post(this.baseUrl + '/api/v1/authenticate/artist', auth, { observe: 'response' });
+  }
+
+  signUp(artist: any) {
+    return this.http.post(this.baseUrl + '/api/v1/artists/register', artist, { observe: 'response' });
+  }
+
+  changePassword(email: string, newPassword: string, currentPassword: string) {
+    var body: any = {
       email: email,
-      password: password
+      password: newPassword,
+      oldPassword: currentPassword
     }
-    return this.http.put(this.baseUrl + '/api/v1/artists/password', change, { observe: 'response' });
+    return this.http.put(this.baseUrl + '/api/v1/artists/password', body, { headers: this.httpHeaders, observe: 'response' });
+  }
+
+  forgetPassword(email: string) {
+    var body: any = {
+      email: email,
+      role: "Artist"
+    }
+    return this.http.post<any>(this.baseUrl + '/api/v1/systems/otp', body, { headers: this.httpHeaders, observe: 'response' });
+  }
+
+  verifyPassword(body: any) {
+    return this.http.put<any>(this.baseUrl + '/api/v1/artists/forget-password', body, { headers: this.httpHeaders, observe: 'response' });
   }
 }

@@ -2,3 +2,23 @@
 a {
     cursor: pointer;
 }
+
+.main {
+    min-height: 80vh;
+}
+
+.loading-spinner {
+    min-height: 80vh;
+}
+
+.center-cropped {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.mini-center-cropped {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+}

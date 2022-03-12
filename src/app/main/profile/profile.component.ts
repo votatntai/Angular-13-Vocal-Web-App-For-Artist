@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Artist } from 'src/app/models/artist.model';
 import { User } from 'src/app/models/user.model';
+import { ArtistService } from 'src/app/services/artist.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { PasswordConfirmedValidator } from 'src/app/validators/validator';
+import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,51 +15,91 @@ import Swal from 'sweetalert2';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private service: AuthService, private form: FormBuilder) { }
+  constructor(
+    private service: AuthService,
+    private artistService: ArtistService,
+    private form: FormBuilder,
+  ) { }
 
-  user: User = { id: '', username: '', email: '', phone: '', avatarUrl: '', firstName: '', lastName: '', gender: '', role: '', status: '', token: '' };
+  user: User;
+
+  artist: Artist;
+
+  rate: number;
+
+  loading: boolean = false;
 
   updateProfileForm = this.form.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
+    bio: ['', [Validators.required, Validators.minLength(50)]],
+    studio: [false, Validators.required],
     gender: ['', Validators.required],
-    phone: ['', Validators.required]
+    // phone: ['', [Validators.required, Validators.pattern('(03|05|07|08|09)[0-9]{8}')]]
   });
 
   updatePasswordForm = this.form.group({
-    currentPassword: ['', Validators.required],
-    newPassword: ['', Validators.required],
-    rePassword: ['', Validators.required]
+    currentPassword: ['', [Validators.required, Validators.minLength(6)]],
+    newPassword: ['', [Validators.required, Validators.minLength(6)]],
+    rePassword: ['', [Validators.required, Validators.minLength(6)]]
   }, {
     validator: PasswordConfirmedValidator('newPassword', 'rePassword')
   });
 
   ngOnInit(): void {
     this.getUserInfo();
+    this.getArtistInfo();
   }
 
   getUserInfo() {
     var data = localStorage.getItem('USER');
-    this.service.getUser().subscribe(result => {
-      this.user = result;
-      this.updateProfileForm.setValue({
-        firstName: this.user.firstName,
-        lastName: this.user.lastName,
-        gender: this.user.gender,
-        phone: this.user.phone
-      });
-    });
     if (data) {
-      var user = JSON.parse(data);
-      this.service.updateUser(user);
+      this.user = JSON.parse(data);
+      if (this.user.avatar == '') {
+        this.user.avatar = environment.defaultAvatar;
+      }
     }
   }
 
-  updateProfile() {
-
+  getArtistInfo() {
+    this.loading = false;
+    this.artistService.getArtistGlobal().subscribe(result => {
+      this.artist = result;
+    })
+    this.artistService.getArtistInfo(this.user.id).subscribe(result => {
+      if (result.body) {
+        this.artist = result.body;
+        this.updateProfileForm.setValue({
+          firstName: this.artist.firstName,
+          lastName: this.artist.lastName,
+          bio: this.artist.bio,
+          studio: this.artist.studio,
+          gender: this.artist.gender,
+          // phone: this.artist.phone
+        });
+        this.artistService.setArtistGlobal(result.body);
+        this.rate = Math.floor(this.artist.rate);
+        this.loading = true;
+      }
+    });
   }
 
-
+  updateProfile() {
+    if (this.updateProfileForm.valid) {
+      this.artistService.updateArtistInfo(this.updateProfileForm.value).subscribe(result => {
+        if (result.status == 200) {
+          this.artistService.setArtistGlobal(result.body);
+          Swal.fire(
+            'Thành công!',
+            'Thông tin người dùng đã được cập nhật!',
+            'success'
+          )
+        }
+      }, error => {
+        console.log(error);
+      })
+    }
+  }
 
   updatePassword() {
     var currentPassword = this.updatePasswordForm.value['currentPassword'];
@@ -76,8 +119,8 @@ export class ProfileComponent implements OnInit {
           'info'
         )
       } else {
-        this.service.changePassword(this.user.email, this.updatePasswordForm.value['newPassword']).subscribe(result => {
-          if (result.status == 204) {
+        this.service.changePassword(this.user.email, newPassword, currentPassword).subscribe(result => {
+          if (result.status == 200) {
             this.updatePasswordForm.reset();
             Swal.fire(
               'Thành công!',
@@ -89,6 +132,14 @@ export class ProfileComponent implements OnInit {
               'Lỗi!',
               'Đã có lỗi xảy ra, vui lòng liên hệ bộ phận hỗ trợ!',
               'error'
+            )
+          }
+        }, error => {
+          if (error.error['data'] == 'OLD_PASSWORD_INVALID') {
+            Swal.fire(
+              'Xin lỗi!',
+              'Mật khẩu hiện tại không đúng!',
+              'warning'
             )
           }
         });

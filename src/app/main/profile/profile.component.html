@@ -1,233 +1,291 @@
 <main id="main" class="main">
 
-    <div class="pagetitle">
-        <h1>Profile</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Main</li>
-                <li class="breadcrumb-item">Users</li>
-                <li class="breadcrumb-item active">Profile</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
+    <div *ngIf="!loading" class="loading-spinner d-flex justify-content-center my-auto">
+        <div class="spinner-border my-auto text-primary" role="status">
+            <span class="sr-only"></span>
+        </div>
+    </div>
 
-    <section class="section profile">
-        <div class="row">
-            <div class="col-xl-4">
+    <div *ngIf="loading" class="content">
 
-                <div class="card">
-                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+        <div class="pagetitle">
+            <h1>Profile</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Main</li>
+                    <li class="breadcrumb-item">Users</li>
+                    <li class="breadcrumb-item active">Profile</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
 
-                        <img src="{{ user.avatarUrl }}" alt="Profile" class="rounded-circle">
-                        <h2>{{ user.firstName }} {{ user.lastName }} </h2>
-                        <h3>{{ user.email }}</h3>
-                        <div class="social-links mt-2">
-                            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        <section class="section profile">
+            <div class="row">
+                <div class="col-xl-4">
+
+                    <div class="card">
+                        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                            <img src="{{ artist.avatar }}" alt="Profile" class="center-cropped rounded-circle">
+                            <h2>{{ artist.firstName }} {{ artist.lastName }} </h2>
+                            <h3>{{ artist.email }}</h3>
+                            <div class="social-links mt-2">
+                                <a class="twitter"><i class="bi bi-twitter"></i></a>
+                                <a class="facebook"><i class="bi bi-facebook"></i></a>
+                                <a class="instagram"><i class="bi bi-instagram"></i></a>
+                                <a class="linkedin"><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="text-center">
+                                <p>{{ artist.rate.toFixed(1) }}</p>
+                                <p class="text-warning">
+                                    <i *ngFor="let item of [].constructor(rate)" class="bi bi-star-fill mx-1"></i>
+                                </p>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
-            </div>
+                <div class="col-xl-8">
 
-            <div class="col-xl-8">
+                    <div class="card">
+                        <div class="card-body pt-3">
+                            <!-- Bordered Tabs -->
+                            <ul class="nav nav-tabs nav-tabs-bordered">
 
-                <div class="card">
-                    <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
-                        <ul class="nav nav-tabs nav-tabs-bordered">
+                                <li class="nav-item">
+                                    <button class="nav-link active" data-bs-toggle="tab"
+                                        data-bs-target="#profile-overview">Overview</button>
+                                </li>
 
-                            <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab"
-                                    data-bs-target="#profile-overview">Overview</button>
-                            </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
+                                        Profile</button>
+                                </li>
 
-                            <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
-                                    Profile</button>
-                            </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#avatar-update">Update
+                                        Avatar</button>
+                                </li>
 
-                            <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab"
-                                    data-bs-target="#profile-change-password">Change Password</button>
-                            </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab"
+                                        data-bs-target="#profile-change-password">Change Password</button>
+                                </li>
 
-                        </ul>
-                        <div class="tab-content pt-2">
+                            </ul>
+                            <div class="tab-content pt-2">
 
-                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                                <h5 class="card-title">About</h5>
-                                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores
-                                    cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure
-                                    rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at
-                                    unde.</p>
+                                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                                    <h5 class="card-title">About</h5>
+                                    <p class="small fst-italic">{{ artist.bio }}</p>
 
-                                <h5 class="card-title">Profile Details</h5>
+                                    <h5 class="card-title">Profile Details</h5>
 
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label ">First Name</div>
-                                    <div class="col-lg-9 col-md-8">{{ user.firstName }}</div>
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label ">First Name</div>
+                                        <div class="col-lg-9 col-md-8">{{ artist.firstName }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Last Name</div>
+                                        <div class="col-lg-9 col-md-8">{{ artist.lastName }}</div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Email</div>
+                                        <div class="col-lg-9 col-md-8">{{ artist.email }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Gender</div>
+                                        <div class="col-lg-9 col-md-8">{{ artist.gender }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Status</div>
+                                        <div class="col-lg-9 col-md-8">{{ artist.status }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Phone</div>
+                                        <div class="col-lg-9 col-md-8">{{ artist.phone }}</div>
+                                    </div>
+
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Last Name</div>
-                                    <div class="col-lg-9 col-md-8">{{ user.lastName }}</div>
+                                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                                    <!-- Profile Edit Form -->
+                                    <form [formGroup]="updateProfileForm" (ngSubmit)="updateProfile()">
+
+                                        <div class="row mb-3">
+                                            <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="email" type="email" class="form-control" id="email"
+                                                    value="{{ artist.email }}" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
+                                                Name</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input type="text" class="form-control" id="firstName" [ngClass]="(updateProfileForm.get('firstName')!.touched || updateProfileForm.get('firstName')!.dirty)
+                                                && updateProfileForm.get('firstName')!.errors ? 'is-invalid' : '' || 
+                                                (updateProfileForm.get('firstName')!.touched || updateProfileForm.get('firstName')!.dirty) &&
+                                                !updateProfileForm.get('firstName')!.invalid ? 'is-valid' : ''"
+                                                    formControlName="firstName">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
+                                                Name</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input type="text" class="form-control" id="lastName" [ngClass]="(updateProfileForm.get('lastName')!.touched || updateProfileForm.get('lastName')!.dirty)
+                                                && updateProfileForm.get('lastName')!.errors ? 'is-invalid' : '' || 
+                                                (updateProfileForm.get('lastName')!.touched || updateProfileForm.get('lastName')!.dirty) &&
+                                                !updateProfileForm.get('lastName')!.invalid ? 'is-valid' : ''"
+                                                    formControlName="lastName">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="bio" class="col-md-4 col-lg-3 col-form-label">Bio</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <textarea name="bio" class="form-control" rows="4" formControlName="bio"
+                                                    [ngClass]="(updateProfileForm.get('bio')!.touched || updateProfileForm.get('bio')!.dirty)
+                                                && updateProfileForm.get('bio')!.errors ? 'is-invalid' : '' || 
+                                                (updateProfileForm.get('bio')!.touched || updateProfileForm.get('bio')!.dirty) &&
+                                                !updateProfileForm.get('bio')!.invalid ? 'is-valid' : ''"
+                                                    id="bio"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label class="col-md-4 col-lg-3 col-form-label">Studio</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" [value]="true" type="radio"
+                                                        id="true" formControlName="studio" />
+                                                    <label class="form-check-label" for="true">Yes</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" [value]="false" type="radio"
+                                                        id="false" formControlName="studio" />
+                                                    <label class="form-check-label" for="false">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="gender" class="col-md-4 col-lg-3 col-form-label">Gender</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <select class="form-select" formControlName="gender">
+                                                    <option value="Nam">Nam</option>
+                                                    <option value="Nữ">Nữ</option>
+                                                    <option value="Khác">Khác</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="row mb-3">
+                                            <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="phone" type="text" class="form-control" id="Phone"
+                                                    [ngClass]="(updateProfileForm.get('phone')!.touched || updateProfileForm.get('phone')!.dirty)
+                                                && updateProfileForm.get('phone')!.errors ? 'is-invalid' : '' || 
+                                                (updateProfileForm.get('phone')!.touched || updateProfileForm.get('phone')!.dirty) &&
+                                                !updateProfileForm.get('phone')!.invalid ? 'is-valid' : ''"
+                                                    formControlName="phone">
+                                            </div>
+                                        </div> -->
+
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-outline-primary"
+                                                [ngClass]="!updateProfileForm.valid ? 'disabled' : ''">Save
+                                                Changes</button>
+                                        </div>
+                                    </form><!-- End Profile Edit Form -->
+
                                 </div>
 
+                                <div class="tab-pane fade pt-3" id="profile-change-password">
+                                    <!-- Change Password Form -->
+                                    <form [formGroup]="updatePasswordForm" (ngSubmit)="updatePassword()">
 
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Email</div>
-                                    <div class="col-lg-9 col-md-8">{{ user.email }}</div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Gender</div>
-                                    <div class="col-lg-9 col-md-8">{{ user.gender }}</div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Status</div>
-                                    <div class="col-lg-9 col-md-8">{{ user.status }}</div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Phone</div>
-                                    <div class="col-lg-9 col-md-8">{{ user.phone }}</div>
-                                </div>
-
-                            </div>
-
-                            <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-
-                                <!-- Profile Edit Form -->
-                                <form [formGroup]="updateProfileForm" (ngSubmit)="updateProfile()">
-
-                                    <div class="row mb-3">
-                                        <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="email"
-                                                value="{{ user.email }}" readonly>
+                                        <div class="row mb-3">
+                                            <label for="change-password-email"
+                                                class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input type="email" class="form-control" id="change-password-email"
+                                                    value="{{ artist.email }}" readonly>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row mb-3">
-                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input type="text" class="form-control" id="firstName"
-                                                formControlName="firstName">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input type="text" class="form-control" id="lastName"
-                                                formControlName="lastName">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="bio" class="col-md-4 col-lg-3 col-form-label">Bio</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <textarea name="bio" class="form-control" rows="4"
-                                                id="bio">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="gender" class="col-md-4 col-lg-3 col-form-label">Gender</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <select class="form-select" formControlName="gender">
-                                                <option value="Nam">Nam</option>
-                                                <option value="Nữ">Nữ</option>
-                                                <option value="Khác">Khác</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone"
-                                                formControlName="phone">
-                                        </div>
-                                    </div>
-
-                                    <div class="text-end">
-                                        <button type="submit" class="btn btn-outline-primary">Save Changes</button>
-                                    </div>
-                                </form><!-- End Profile Edit Form -->
-
-                            </div>
-
-                            <div class="tab-pane fade pt-3" id="profile-change-password">
-                                <!-- Change Password Form -->
-                                <form [formGroup]="updatePasswordForm" (ngSubmit)="updatePassword()">
-
-                                    <div class="row mb-3">
-                                        <label for="change-password-email"
-                                            class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input type="email" class="form-control" id="change-password-email"
-                                                value="{{ user.email }}" readonly>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
-                                            Password</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input type="password" class="form-control" id="currentPassword" [ngClass]="(updatePasswordForm.get('currentPassword')!.touched || updatePasswordForm.get('currentPassword')!.dirty)
+                                        <div class="row mb-3">
+                                            <label for="currentPassword"
+                                                class="col-md-4 col-lg-3 col-form-label">Current
+                                                Password</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input type="password" class="form-control" id="currentPassword"
+                                                    [ngClass]="(updatePasswordForm.get('currentPassword')!.touched || updatePasswordForm.get('currentPassword')!.dirty)
                                                  && updatePasswordForm.get('currentPassword')!.errors ? 'is-invalid' : '' || 
                                                  (updatePasswordForm.get('currentPassword')!.touched || updatePasswordForm.get('currentPassword')!.dirty) &&
                                                  !updatePasswordForm.get('currentPassword')!.invalid ? 'is-valid' : ''"
-                                                formControlName="currentPassword">
+                                                    formControlName="currentPassword">
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row mb-3">
-                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
-                                            Password</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input type="password" class="form-control" id="newPassword" [ngClass]="(updatePasswordForm.get('newPassword')!.touched || updatePasswordForm.get('newPassword')!.dirty)
+                                        <div class="row mb-3">
+                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
+                                                Password</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input type="password" class="form-control" id="newPassword" [ngClass]="(updatePasswordForm.get('newPassword')!.touched || updatePasswordForm.get('newPassword')!.dirty)
                                             && updatePasswordForm.get('newPassword')!.errors ? 'is-invalid' : '' || 
                                             (updatePasswordForm.get('newPassword')!.touched || updatePasswordForm.get('newPassword')!.dirty) &&
                                             !updatePasswordForm.get('newPassword')!.invalid ? 'is-valid' : ''"
-                                                formControlName="newPassword">
+                                                    formControlName="newPassword">
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row mb-3">
-                                        <label for="rePassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New
-                                            Password</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input type="password" class="form-control" id="rePassword" [ngClass]="(updatePasswordForm.get('rePassword')!.touched || updatePasswordForm.get('rePassword')!.dirty)
+                                        <div class="row mb-3">
+                                            <label for="rePassword" class="col-md-4 col-lg-3 col-form-label">Confirm
+                                                Password</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input type="password" class="form-control" id="rePassword" [ngClass]="(updatePasswordForm.get('rePassword')!.touched || updatePasswordForm.get('rePassword')!.dirty)
                                             && updatePasswordForm.get('rePassword')!.errors || updatePasswordForm.get('rePassword')!.hasError('notSame') ? 'is-invalid' : '' || 
                                             (updatePasswordForm.get('rePassword')!.touched || updatePasswordForm.get('rePassword')!.dirty) &&
                                             !updatePasswordForm.get('rePassword')!.invalid ? 'is-valid' : ''"
-                                                formControlName="rePassword">
+                                                    formControlName="rePassword">
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="text-end">
-                                        <button type="submit" class="btn btn-outline-primary"
-                                            [ngClass]="!updatePasswordForm.valid ? 'disabled':''">Change
-                                            Password</button>
-                                    </div>
-                                </form><!-- End Change Password Form -->
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-outline-primary"
+                                                [ngClass]="!updatePasswordForm.valid ? 'disabled':''">Change
+                                                Password</button>
+                                        </div>
+                                    </form><!-- End Change Password Form -->
 
-                            </div>
+                                </div>
 
-                        </div><!-- End Bordered Tabs -->
+                                <div class="tab-pane fade pt-3" id="avatar-update">
+                                    <app-avatar></app-avatar>
+                                </div>
 
+
+                            </div><!-- End Bordered Tabs -->
+
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
 </main><!-- End #main -->

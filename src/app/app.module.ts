@@ -18,6 +18,10 @@ import { NgAudioRecorderModule } from 'ng-audio-recorder';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { AvatarComponent } from './main/profile/avatar/avatar.component';
+import { JobsComponent } from './main/jobs/jobs.component';
+import { DetailComponent } from './main/jobs/detail/detail.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,10 @@ import { environment } from 'src/environments/environment';
     FooterComponent,
     ErrorComponent,
     RecordComponent,
+    ForgetPasswordComponent,
+    AvatarComponent,
+    JobsComponent,
+    DetailComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -42,7 +50,8 @@ import { environment } from 'src/environments/environment';
     HttpClientModule,
     NgAudioRecorderModule,
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
